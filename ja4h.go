@@ -1,3 +1,15 @@
+// Package ja4h is a Go implementation of the JA4HTTP (JA4H) hashing algorithm
+// (https://github.com/FoxIO-LLC/ja4).
+//
+// Note:
+//
+// This is not a perfect implementation of the algorithm. The JA4H_b section will not be correct
+// because the fingerprint should be the truncated SHA256 hash of the request headers in the
+// order they appear.
+//
+// Since Go stores the request headers in a map, it does not keep the ordering as they appeared
+// in the request. This implementation of the JA4H_b section sorts the headers before hashing to
+// make the fingerprint consistent.
 package ja4h
 
 import (
@@ -60,10 +72,15 @@ func language(headers http.Header) string {
 }
 
 // 1. HTTP Method, GET="ge", PUT="pu", POST="po", etc.
+//
 // 2. HTTP Version, 2.0="20", 1.1="11"
+//
 // 3. Cookie, if there's a Cookie "c", if no Cookie "n"
+//
 // 4. Referer, if there's a Referer "r", if no Referer "n"
+//
 // 5. Number of HTTP Headers (ignore Cookie and Referer)
+//
 // 6. First 4 characters of primary Accept-Language (0000 if no Accept-Language)
 func JA4H_a(req *http.Request) string {
 	method := http_method(req.Method)
@@ -77,6 +94,7 @@ func JA4H_a(req *http.Request) string {
 }
 
 // Truncated SHA256 hash of Headers, in the order they appear
+//
 // ISSUE: Go HTTP request headers are a map and does not keep the ordering
 func JA4H_b(req *http.Request) string {
 	ordered_headers := make([]string, 0, len(req.Header))
@@ -128,7 +146,7 @@ func JA4H_d(req *http.Request) string {
 	return fmt.Sprintf("%x", bs)[:12]
 }
 
-// JA4H: HTTP client fingerprint based on each HTTP request.
+// HTTP client fingerprint based on each HTTP request.
 func JA4H(req *http.Request) string {
 	JA4H_a := JA4H_a(req)
 	JA4H_b := JA4H_b(req)

@@ -10,7 +10,7 @@ The JA4H_b section will not be correct because the fingerprint should be the tru
 
 Since Go stores the headers in a map, it does not keep the ordering as they appeared in the request.
 
-This implementation of the JA4H_b section sorts the headers before hashing to make the fingerprint consistent.
+This implementation of the JA4H_b section sorts the request headers before hashing to make the fingerprint consistent.
 
 ## Example Middleware
 
