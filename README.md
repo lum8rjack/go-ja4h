@@ -61,3 +61,7 @@ Index page with a new JA4H header: po11cn03enus_55e041b6e2b4_8c6976e5b541_8c6976
 
 - [JA4+ Network Fingerprinting](https://blog.foxio.io/ja4+-network-fingerprinting)
 - [ja4 GitHub](https://github.com/FoxIO-LLC/ja4)
+
+# Licensing
+
+The code in this repository is MIT licensed. However, JA4H itself is subject to additional restricitons. Please see the [NOTICE](NOTICE) file for further details.
